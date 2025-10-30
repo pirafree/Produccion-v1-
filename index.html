@@ -59,8 +59,14 @@ switch(tipo.toUpperCase()){
 
 do{
     piezas = parseInt(prompt("Ingrese la cantidad de piezas producidas en el día " + (i+1) + ":"));
+
+    var comp = prompt("Ingrese el componente usado este día (A, B o C):").toUpperCase();
+    while(comp !== "A" && comp !== "B" && comp !== "C"){
+        comp = prompt("Componente no válido. Ingrese A, B o C:").toUpperCase();
+    }
+
     if(!isNaN(piezas) && piezas >= 0){
-        dias[i] = piezas;
+        dias[i] = { piezas: piezas, componente: comp };
         total_piezas += piezas;
         i++;
     }else{
@@ -97,10 +103,11 @@ document.write("<hr>");
 document.write("<h3>Producción diaria</h3>");
 
 for(var j=0; j < dias.length; j++){
-    document.write("<p>Día " + (j+1) + ": " + dias[j].toLocaleString() + " piezas — " + tipo + "</p>");
+    document.write("<p>Día " + (j+1) + ": " + dias[j].piezas.toLocaleString() + " piezas — Componente " + dias[j].componente + "</p>");
 }
 
 document.write("</div>");
 </script>
 </body>
 </html>
+
