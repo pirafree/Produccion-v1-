@@ -11,7 +11,7 @@ body{
 h1{
     text-align:center;
     background-color:#cc0000;
-    color:rgb(255, 255, 255);
+    color:white;
     padding:15px;
 }
 .cuadro{
@@ -22,43 +22,32 @@ h1{
     padding:20px;
     box-shadow:0 0 10px rgba(0,0,0,0.2);
 }
-.bajo{
-    color:red;
-    font-weight:bold;
-}
-.aceptable{
-    color:orange;
-    font-weight:bold;
-}
-.excelente{
-    color:green;
-    font-weight:bold;
-}
+.bajo{ color:red; font-weight:bold; }
+.aceptable{ color:orange; font-weight:bold; }
+.excelente{ color:green; font-weight:bold; }
 </style>
 </head>
 <body>
 <h1>Control de Producción</h1>
 <script>
-var nombre, tipo, costo, piezas, total_piezas=0, continuar, rendimiento;
+var nombre, tipo, tipoIngresado, costo, piezas, total_piezas=0, continuar, rendimiento;
 var dias = [];
 var i=0;
 
 nombre = prompt("Ingrese el nombre del operario:");
 tipo = prompt("Ingrese el tipo de producto (A, B o C):");
+tipoIngresado = tipo; // Guarda A, B o C original
 
-switch(tipo){
+switch(tipo.toUpperCase()){
     case "A":
-    case "a":
         costo = 5000;
         tipo = "Componente A";
         break;
     case "B":
-    case "b":
         costo = 7000;
         tipo = "Componente B";
         break;
     case "C":
-    case "c":
         costo = 10000;
         tipo = "Componente C";
         break;
@@ -72,18 +61,19 @@ do{
     piezas = parseInt(prompt("Ingrese la cantidad de piezas producidas en el día " + (i+1) + ":"));
     if(!isNaN(piezas) && piezas >= 0){
         dias[i] = piezas;
-        total_piezas = total_piezas + piezas;
+        total_piezas += piezas;
         i++;
     }else{
-        alert("Ingrese un valor numérico válido.");
+        alert("Ingrese un valor válido.");
     }
     continuar = prompt("¿Desea registrar otro día? (si/no)");
-}while(continuar == "si" || continuar == "SI");
+}while(continuar.toLowerCase() == "si");
 
+var clase = "";
 if(total_piezas < 50){
     rendimiento = "Bajo rendimiento";
     clase = "bajo";
-}else if(total_piezas >= 50 && total_piezas <= 100){
+}else if(total_piezas <= 100){
     rendimiento = "Rendimiento aceptable";
     clase = "aceptable";
 }else{
@@ -95,19 +85,24 @@ var costo_total = total_piezas * costo;
 
 document.write("<div class='cuadro'>");
 document.write("<h2>Resultados Finales</h2>");
+
 document.write("<p><b>Nombre del operario:</b> " + nombre + "</p>");
-document.write("<p><b>Tipo de producto:</b> " + tipo + "</p>");
+document.write("<p><b>Componente fabricado:</b> " + tipo + " (" + tipoIngresado.toUpperCase() + ")</p>");
 document.write("<p><b>Costo unitario:</b> $" + costo.toLocaleString() + "</p>");
 document.write("<p><b>Total de piezas producidas:</b> " + total_piezas + "</p>");
 document.write("<p><b>Costo total de producción:</b> $" + costo_total.toLocaleString() + "</p>");
 document.write("<p><b>Rendimiento:</b> <span class='" + clase + "'>" + rendimiento + "</span></p>");
+
 document.write("<hr>");
 document.write("<h3>Producción diaria</h3>");
-for(var j=0; j<dias.length; j++){
-    document.write("<p>Día " + (j+1) + ": " + dias[j] + " piezas</p>");
+
+for(var j=0; j < dias.length; j++){
+    document.write("<p>Día " + (j+1) + ": " + dias[j].toLocaleString() + " piezas — " + tipo + "</p>");
 }
+
 document.write("</div>");
 </script>
 </body>
 </html>
+
 
